@@ -3,8 +3,9 @@ export const notesSlice = createSlice({
   name: "notes",
   initialState: {
     notesArr: JSON.parse(localStorage.getItem("notes")) || [],
+    activeFilter: "",
   },
-  reducers: {
+  reducers: {     
     addNewNote: {
       reducer: (state, action) => {
         state.notesArr.push(action.payload);
@@ -27,9 +28,7 @@ export const notesSlice = createSlice({
     },
 
     getAllNotes: (state, action) => {
-      return state.notesArr.filter((item) =>
-        item.noteText.includes(action.payload)
-      );
+      state.activeFilter=action.payload;
     },
   },
 });

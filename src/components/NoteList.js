@@ -1,13 +1,18 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { allNotes, destroy, getAllNotes } from "../redux/notes/notesSlice";
+import { allNotes, destroy } from "../redux/notes/notesSlice";
 
 function NoteList() {
   const dispatch = useDispatch();
   //const notes = useSelector(getAllNotes);
-  const notes = useSelector(allNotes);
   //const notes = useSelector(state=>state.noteList.notesArr);
+  
+  const notes = useSelector(allNotes);
+  const activeFilter = useSelector((state) => state.noteList.activeFilter);
 
+  const filteredNotes = notes.filter((note) =>
+    note.noteText.toLowerCase().includes(activeFilter.toLowerCase())
+  );
 
   const handleDestroy = (id) => {
     if (window.confirm("Are you sure?")) {
@@ -19,7 +24,7 @@ function NoteList() {
   }, [notes]);
   return (
     <div className="note-list">
-      {notes.map((note) => (
+      {filteredNotes.map((note) => (
         <div
           className="note"
           style={{ backgroundColor: `${note.noteColor}` }}
